@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-_zcs*8_u259po+45wt(@grr54vy(#)cm!-5d5qq6px=05t^+2^
 DEBUG = True
 
 
-# Autoriser tous les hôtes
-ALLOWED_HOSTS = ['*']
+# Autoriser localhost et le sous-domaine Codespaces dynamiquement
+import os
+codespace_name = os.environ.get('CODESPACE_NAME')
+allowed_hosts = ['localhost', '127.0.0.1']
+if codespace_name:
+    allowed_hosts.append(f"{codespace_name}-8000.app.github.dev")
+ALLOWED_HOSTS = allowed_hosts
 
 
 # Application definition
@@ -90,7 +95,6 @@ DATABASES = {
             'username': '',
             'password': '',
             'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
         },
     }
 }
